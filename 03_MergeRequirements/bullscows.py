@@ -31,20 +31,20 @@ def gameplay(ask: callable, inform: callable, words: list[str]) -> int:
 
 if __name__ == "__main__":
     def ask(prompt: str, valid: list[str] = None) -> str:
-        cow = random.choice(cowsay.list_cows())
         if valid is None:
-            print(cowsay.cowsay(prompt, cow=cow))
+            with open(COW_FILE) as f:
+                print(cowsay.cowsay(prompt, cowfile=f.read()))
             return input()
         else:
             while True:
-                print(cowsay.cowsay(prompt, cow=cow))
-                guess = input()
-                if guess in valid:
+                with open(COW_FILE) as f:
+                    print(cowsay.cowsay(prompt, cowfile=f.read()))
+                if (guess := input()) in valid:
                     return guess
 
     def inform(format_string: str, bulls: int, cows: int) -> None:
-        cow = random.choice(cowsay.list_cows())
-        print(cowsay.cowsay(format_string.format(bulls, cows), cow=cow))
+        with open(COW_FILE) as f:
+            print(cowsay.cowsay(format_string.format(bulls, cows), cowfile=f.read()))
 
     secret_len = int(sys.argv[2]) if len(sys.argv) == 3 else 5
     dict_path = sys.argv[1]
